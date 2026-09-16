@@ -34,6 +34,10 @@ return {
   {
     "akinsho/toggleterm.nvim",
     version = "*",
+    -- `cmd` guarantees :ToggleTerm exists and loads the plugin even if a
+    -- keybinding below never reaches Neovim (e.g. a terminal emulator that
+    -- doesn't pass a given Ctrl combo through as a distinct keypress).
+    cmd = { "ToggleTerm", "TermExec" },
     keys = {
       { [[<C-`>]], "<cmd>ToggleTerm direction=horizontal<cr>", desc = "Toggle terminal" },
       { "<C-;>", "<cmd>ToggleTerm direction=horizontal<cr>", desc = "Toggle terminal" },

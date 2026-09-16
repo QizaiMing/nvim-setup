@@ -62,34 +62,133 @@ have one set as your terminal's font.
 | Integrated terminal | `akinsho/toggleterm.nvim` |
 | Keybinding hints | `folke/which-key.nvim` |
 
-Leader key is `<Space>`.
+## Day-to-day workflow
 
-## Keybindings (VS Code parity)
+Leader key is `<Space>`. Press `Space` and wait a moment in normal mode —
+which-key pops up a menu of everything available from there, so you don't
+need to memorize the `Space` combos below.
 
-| Keys | Action | Notes |
-|---|---|---|
-| `Ctrl+S` | Save file | works in normal/insert/visual |
-| `Ctrl+P` | Find files | |
-| `Ctrl+B` | Toggle file explorer | |
-| `` Ctrl+` `` / `Ctrl+;` | Toggle terminal | both work; `Ctrl+;` matches this user's VS Code remap |
-| `Ctrl+/` | Toggle line comment | sends `Ctrl+_` on most terminals |
-| `Space f g` | Search in files (grep) | `Ctrl+Shift+F` also works in terminals that pass Shift through (Windows Terminal, Kitty, WezTerm) |
-| `Space f p` | Command palette (`:Telescope commands`) | `Ctrl+Shift+P` also works where supported |
-| `Space f b` | Switch open buffer | |
-| `Alt+Up` / `Alt+Down` | Move line up/down | |
-| `Shift+H` / `Shift+L` | Previous/next tab | |
-| `Space b d` | Close current buffer/tab | |
-| `gd` | Go to definition | |
-| `gr` | Find references | |
-| `K` | Hover docs | |
-| `Space r n` | Rename symbol | |
-| `Space c a` | Code action | |
-| `Space f` (in a file with an LSP attached) | Format buffer | |
-| `Ctrl+hjkl` | Move between splits | |
-| `]c` / `[c` | Next/previous git change | |
+Notation: `C` = Ctrl, `S` = Shift, `A` = Alt. `` Ctrl+` `` is written as
+that backtick character, not the letter.
 
-Press `Space` and wait — which-key pops up a menu of everything available
-from there.
+### Opening and finding files (global search)
+
+| Keys | Action |
+|---|---|
+| `Ctrl+P` | Find files by name (fuzzy) |
+| `Space f g` | **Search text across the whole project** (live grep) |
+| `Ctrl+Shift+F` | Same as above, on terminals that pass Shift through (Windows Terminal, Kitty, WezTerm — not all SSH terminals do) |
+| `Space f b` | Switch to another open buffer |
+| `Space f p` | Command palette (`:Telescope commands`) |
+| `Space f h` | Search help docs |
+| `Space f d` | List diagnostics (errors/warnings) across open buffers |
+
+Inside any Telescope search window: keep typing to filter, `Ctrl+J`/`Ctrl+K`
+(or arrows) to move the selection, `Enter` to open, `Ctrl+V` to open in a
+vertical split, `Ctrl+X` for a horizontal split, `Esc` to cancel.
+
+### Searching inside the current file
+
+This is plain Vim, no plugin needed:
+
+| Keys | Action |
+|---|---|
+| `/pattern` then `Enter` | Search forward for `pattern` |
+| `?pattern` then `Enter` | Search backward |
+| `n` / `N` | Jump to next / previous match |
+| `*` / `#` | Search for the word under the cursor, forward / backward |
+| `Esc` | Clear the search highlight |
+| `:%s/old/new/g` | Replace all `old` with `new` in the file |
+| `:%s/old/new/gc` | Same, but confirm each replacement (`y`/`n`/`a`) |
+
+### File explorer (sidebar)
+
+| Keys | Action |
+|---|---|
+| `Ctrl+B` | Toggle the file tree open/closed |
+| `Space e` | Open the tree and focus it |
+| `Enter` (on a file, inside the tree) | Open it |
+| `Enter` (on a folder, inside the tree) | Expand/collapse it |
+| `a` | Create a new file/folder (end the name with `/` for a folder) |
+| `d` | Delete the entry under the cursor |
+| `r` | Rename |
+| `x` / `c` / `p` | Cut / copy / paste |
+| `H` | Toggle showing dotfiles |
+| `g?` | Full nvim-tree keymap help, while focused in the tree |
+
+### Terminal
+
+| Keys | Action |
+|---|---|
+| `` Ctrl+` `` or `Ctrl+;` | Open the integrated terminal / close it again (both keys work; `Ctrl+;` matches this user's old VS Code remap) |
+| `Esc` (while inside the terminal) | Leave terminal-insert mode without closing the panel — lets you scroll/copy or use `Ctrl+hjkl` to jump to another split |
+| `i` or `a` (after pressing Esc in the terminal) | Go back into the terminal's insert mode to keep typing shell commands |
+
+### Git
+
+| Keys | Action |
+|---|---|
+| `]c` / `[c` | Jump to the next / previous changed hunk in the current file |
+| `Space h p` | Preview the diff for the hunk under the cursor, in a popup |
+| `Space h s` | Stage the hunk under the cursor |
+| `Space h r` | Reset (discard) the hunk under the cursor |
+
+Changed lines are also marked in the left gutter (`│` added/changed, `_`
+removed) as you edit, and the current branch shows in the statusline. For a
+full `git diff`/`git log`/interactive staging view, open the terminal
+(`` Ctrl+` ``) and run `git diff`, `git log`, or a TUI like `lazygit` if you
+install one.
+
+### Buffers and splits
+
+| Keys | Action |
+|---|---|
+| `Shift+L` / `Shift+H` | Next / previous open buffer (VS Code tab equivalent) |
+| `Space b d` | Close the current buffer |
+| `Ctrl+hjkl` | Move focus between splits (left/down/up/right) |
+| `Ctrl+Up/Down/Left/Right` | Resize the current split |
+| `:vsplit` / `:split` | Open the current file in a new vertical / horizontal split |
+
+### Editing
+
+| Keys | Action |
+|---|---|
+| `Ctrl+S` | Save (works in normal, insert, and visual mode) |
+| `Ctrl+/` | Toggle a line comment (normal mode) or comment out a selection (visual mode) |
+| `Alt+Up` / `Alt+Down` | Move the current line (or selection) up/down |
+| `Tab` / `Shift+Tab` (visual mode) | Indent / outdent the selection, keeping it selected |
+| `jk` (insert mode) | Exit to normal mode, instead of reaching for `Esc` |
+
+### Code intelligence (LSP)
+
+Available once a language server has attached to the buffer (check the
+statusline, or `:LspInfo`):
+
+| Keys | Action |
+|---|---|
+| `gd` | Go to definition |
+| `gD` | Go to declaration |
+| `gr` | Find references |
+| `gi` | Go to implementation |
+| `K` | Show hover docs for the symbol under the cursor |
+| `Space r n` | Rename the symbol under the cursor, project-wide |
+| `Space c a` | Show available code actions (quick fixes, refactors) |
+| `Space f` | Format the current buffer |
+| `[d` / `]d` | Jump to the previous / next diagnostic (error/warning) |
+
+### Core Vim navigation (no plugin, for reference)
+
+| Keys | Action |
+|---|---|
+| `h j k l` | Left / down / up / right |
+| `w` / `b` / `e` | Next word start / previous word start / word end |
+| `0` / `^` / `$` | Start of line / first non-blank char / end of line |
+| `gg` / `G` | Top / bottom of file |
+| `Ctrl+D` / `Ctrl+U` | Scroll half a page down / up |
+| `dd` / `yy` / `p` | Delete (cut) line / copy line / paste |
+| `u` / `Ctrl+R` | Undo / redo |
+| `v` / `V` / `Ctrl+V` | Visual (char) / visual line / visual block select |
+| `.` | Repeat the last change |
 
 ## Updating
 

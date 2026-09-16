@@ -36,6 +36,12 @@ map("v", ">", ">gv")
 -- VS Code's integrated terminal.
 map("t", "<Esc>", [[<C-\><C-n>]], { desc = "Exit terminal mode" })
 
+-- Same jk-to-escape habit as insert mode, ported to the terminal. Note this
+-- means typing a literal "jk" into a shell command (e.g. part of a path or
+-- branch name) within timeoutlen will exit terminal-insert mode instead --
+-- press `i` to go straight back in if that happens.
+map("t", "jk", [[<C-\><C-n>]], { desc = "Exit terminal mode" })
+
 -- Jump straight from inside the terminal to another split (editor, file
 -- tree, ...) in one keypress, matching the same Ctrl+hjkl used everywhere
 -- else, instead of needing Esc first to leave terminal-insert mode.

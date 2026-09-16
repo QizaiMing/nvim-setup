@@ -6,6 +6,9 @@ local map = vim.keymap.set
 -- Save like VS Code.
 map({ "n", "i", "v" }, "<C-s>", "<cmd>write<cr>", { desc = "Save file" })
 
+-- Ported from the VS Code Vim extension config (vim.insertModeKeyBindings).
+map("i", "jk", "<Esc>", { desc = "Exit insert mode" })
+
 -- Move lines up/down like Alt+Up/Down in VS Code.
 map("n", "<A-j>", "<cmd>m .+1<cr>==", { desc = "Move line down" })
 map("n", "<A-k>", "<cmd>m .-2<cr>==", { desc = "Move line up" })

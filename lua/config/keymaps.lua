@@ -36,6 +36,14 @@ map("v", ">", ">gv")
 -- VS Code's integrated terminal.
 map("t", "<Esc>", [[<C-\><C-n>]], { desc = "Exit terminal mode" })
 
+-- Jump straight from inside the terminal to another split (editor, file
+-- tree, ...) in one keypress, matching the same Ctrl+hjkl used everywhere
+-- else, instead of needing Esc first to leave terminal-insert mode.
+map("t", "<C-h>", [[<C-\><C-n><C-w>h]], { desc = "Go to left window" })
+map("t", "<C-j>", [[<C-\><C-n><C-w>j]], { desc = "Go to lower window" })
+map("t", "<C-k>", [[<C-\><C-n><C-w>k]], { desc = "Go to upper window" })
+map("t", "<C-l>", [[<C-\><C-n><C-w>l]], { desc = "Go to right window" })
+
 -- Close the terminal panel from inside it with the same key that opened it
 -- (F12 / Ctrl+` / Ctrl+;), like VS Code's toggle behavior. Plain maps, not
 -- part of lazy.nvim's `keys` loader -- see lua/plugins/editor.lua for why.

@@ -116,6 +116,12 @@ This is plain Vim, no plugin needed:
 | `x` / `c` / `p` | Cut / copy / paste |
 | `H` | Toggle showing dotfiles |
 | `g?` | Full nvim-tree keymap help, while focused in the tree |
+| `Ctrl+L` (while focused in the tree) | Jump back to the editor, without opening/closing anything |
+
+**Switching focus in general**: `Ctrl+H/J/K/L` moves focus to the
+left/down/up/right split from *any* window — the editor, the file tree, or
+(see below) the terminal. It's the one navigation shortcut that works
+everywhere, so if you're ever unsure how to get back to editing, that's it.
 
 ### Terminal
 
@@ -124,8 +130,8 @@ This is plain Vim, no plugin needed:
 | `F12` | Open the integrated terminal / close it again — the reliable one, works in every terminal emulator |
 | `` Ctrl+` `` or `Ctrl+;` | Same, as a bonus — but "Ctrl + punctuation" combos aren't encoded as distinct keypresses by every terminal emulator (confirmed not to work in this user's Windows Terminal setup), so `F12` is the one to rely on |
 | Terminal shell | Git Bash (matches this user's VS Code default terminal profile), regardless of what shell launched Neovim itself |
-| `Esc` (while inside the terminal) | Leave terminal-insert mode without closing the panel — lets you scroll/copy or use `Ctrl+hjkl` to jump to another split |
-| `i` or `a` (after pressing Esc in the terminal) | Go back into the terminal's insert mode to keep typing shell commands |
+| `Ctrl+H/J/K/L` (while inside the terminal, even mid-command) | **Jump straight to the file tree / editor / another split in one keypress** — no need to press Esc first |
+| `Esc` (while inside the terminal) | Leave terminal-insert mode without closing the panel or changing focus — lets you scroll/copy with normal Vim motions, then `i` or `a` to go back to typing shell commands |
 
 ### Git
 
@@ -139,7 +145,7 @@ This is plain Vim, no plugin needed:
 Changed lines are also marked in the left gutter (`│` added/changed, `_`
 removed) as you edit, and the current branch shows in the statusline. For a
 full `git diff`/`git log`/interactive staging view, open the terminal
-(`` Ctrl+` ``) and run `git diff`, `git log`, or a TUI like `lazygit` if you
+(`F12`) and run `git diff`, `git log`, or a TUI like `lazygit` if you
 install one.
 
 ### Buffers and splits
@@ -149,7 +155,7 @@ install one.
 | `Shift+L` / `Shift+H` | Next / previous open buffer (VS Code tab equivalent) |
 | `Ctrl+Tab` / `Ctrl+Shift+Tab` | Same as above — matches VS Code's actual default for cycling editor tabs |
 | `Space b d` | Close the current buffer |
-| `Ctrl+hjkl` | Move focus between splits (left/down/up/right) |
+| `Ctrl+H/J/K/L` | Move focus between splits (left/down/up/right); also works from inside the terminal or file tree |
 | `Ctrl+Up/Down/Left/Right` | Resize the current split |
 | `:vsplit` / `:split` | Open the current file in a new vertical / horizontal split |
 

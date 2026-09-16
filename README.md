@@ -61,6 +61,7 @@ have one set as your terminal's font.
 | Comment toggling | `numToStr/Comment.nvim` |
 | Integrated terminal | `akinsho/toggleterm.nvim` |
 | Keybinding hints | `folke/which-key.nvim` |
+| Markdown preview | `MeanderingProgrammer/render-markdown.nvim` |
 
 ## Day-to-day workflow
 
@@ -175,6 +176,16 @@ statusline, or `:LspInfo`):
 | `Space c a` | Show available code actions (quick fixes, refactors) |
 | `Space f` | Format the current buffer |
 | `[d` / `]d` | Jump to the previous / next diagnostic (error/warning) |
+
+### Markdown preview
+
+Opening any `.md` file automatically renders it in place: headers, bold/
+italic, tables, checkboxes, and code blocks get redrawn nicely right in the
+buffer as you edit — no browser, no external tool, works the same over SSH.
+
+| Keys | Action |
+|---|---|
+| `Space m p` | Toggle rendering on/off for the current buffer (to edit raw markdown, e.g. around a tricky table) |
 
 ### Core Vim navigation (no plugin, for reference)
 

@@ -1,8 +1,8 @@
 # nvim-config
 
 Personal Neovim config styled after VS Code + Dracula: same dark palette, a
-left file explorer, tabs across the top, a status bar, fuzzy find, git gutter
-signs, LSP-backed autocomplete/diagnostics, and familiar keybindings.
+file explorer sidebar, tabs across the top, a status bar, fuzzy find, git
+gutter signs, LSP-backed autocomplete/diagnostics, and familiar keybindings.
 
 Everything is plain Lua under `lua/`, managed by [lazy.nvim](https://github.com/folke/lazy.nvim),
 which bootstraps itself — there is nothing to install by hand beyond Neovim
@@ -104,9 +104,8 @@ This is plain Vim, no plugin needed:
 
 ### File explorer (sidebar)
 
-Docked on the left, matching Vim/VS Code's usual default (independent of
-your VS Code `workbench.sideBar.location` setting, if you've changed that —
-configurable in `lua/plugins/explorer.lua`'s `view.side`).
+Docked on the right (configurable in `lua/plugins/explorer.lua`'s
+`view.side`, set to `"left"` for Vim/VS Code's more common default).
 
 | Keys | Action |
 |---|---|
@@ -120,7 +119,7 @@ configurable in `lua/plugins/explorer.lua`'s `view.side`).
 | `x` / `c` / `p` | Cut / copy / paste |
 | `H` | Toggle showing dotfiles |
 | `g?` | Full nvim-tree keymap help, while focused in the tree |
-| `Ctrl+L` (while focused in the tree) | Jump back to the editor, without opening/closing anything |
+| `Ctrl+H` (while focused in the tree) | Jump back to the editor, without opening/closing anything |
 
 **Switching focus in general**: `Ctrl+H/J/K/L` moves focus to the
 left/down/up/right split from *any* window — the editor, the file tree, or

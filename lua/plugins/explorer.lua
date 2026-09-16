@@ -9,7 +9,7 @@ return {
   opts = {
     view = {
       width = 32,
-      side = "left",
+      side = "right",
     },
     renderer = {
       group_empty = true,

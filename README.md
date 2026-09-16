@@ -145,6 +145,7 @@ install one.
 | Keys | Action |
 |---|---|
 | `Shift+L` / `Shift+H` | Next / previous open buffer (VS Code tab equivalent) |
+| `Ctrl+Tab` / `Ctrl+Shift+Tab` | Same as above — matches VS Code's actual default for cycling editor tabs |
 | `Space b d` | Close the current buffer |
 | `Ctrl+hjkl` | Move focus between splits (left/down/up/right) |
 | `Ctrl+Up/Down/Left/Right` | Resize the current split |

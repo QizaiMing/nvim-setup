@@ -37,6 +37,9 @@ return {
     keys = {
       { "<S-l>", "<cmd>BufferLineCycleNext<cr>", desc = "Next buffer" },
       { "<S-h>", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev buffer" },
+      -- VS Code's actual default for cycling editor tabs.
+      { "<C-Tab>", "<cmd>BufferLineCycleNext<cr>", desc = "Next buffer" },
+      { "<C-S-Tab>", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev buffer" },
       { "<leader>bd", "<cmd>bdelete<cr>", desc = "Close buffer" },
     },
     opts = {

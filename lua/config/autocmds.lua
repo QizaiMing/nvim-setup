@@ -36,3 +36,15 @@ vim.api.nvim_create_autocmd("VimResized", {
   group = augroup,
   command = "tabdo wincmd =",
 })
+
+-- Always land in insert mode when focus moves to a terminal buffer -- by
+-- opening it, by Ctrl+hjkl window navigation, or by clicking into it --
+-- like VS Code's integrated terminal always being ready to type in.
+vim.api.nvim_create_autocmd({ "BufEnter", "WinEnter" }, {
+  group = augroup,
+  callback = function()
+    if vim.bo.buftype == "terminal" then
+      vim.cmd("startinsert")
+    end
+  end,
+})

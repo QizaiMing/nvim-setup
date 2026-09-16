@@ -132,6 +132,7 @@ everywhere, so if you're ever unsure how to get back to editing, that's it.
 | Keys | Action |
 |---|---|
 | `F12` | Open the integrated terminal / close it again — the reliable one, works in every terminal emulator |
+| Focusing the terminal (opening it, or `Ctrl+H/J/K/L`-ing into it) | Always drops you straight into insert mode, ready to type — like VS Code's terminal |
 | `` Ctrl+` `` or `Ctrl+;` | Same, as a bonus — but "Ctrl + punctuation" combos aren't encoded as distinct keypresses by every terminal emulator (confirmed not to work in this user's Windows Terminal setup), so `F12` is the one to rely on |
 | Terminal shell | Git Bash (matches this user's VS Code default terminal profile), regardless of what shell launched Neovim itself |
 | `Ctrl+H/J/K/L` (while inside the terminal, even mid-command) | **Jump straight to the file tree / editor / another split in one keypress** — no need to press Esc first |

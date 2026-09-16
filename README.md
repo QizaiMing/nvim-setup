@@ -161,7 +161,10 @@ install one.
 | `Space b d` | Close the current buffer |
 | `Ctrl+H/J/K/L` | Move focus between splits (left/down/up/right); also works from inside the terminal or file tree |
 | `Ctrl+Up/Down/Left/Right` | Resize the current split |
-| `:vsplit` / `:split` | Open the current file in a new vertical / horizontal split |
+| `Space s v` | **Split the current file vertically** (side by side) — VS Code's "Split Editor" |
+| `Space s h` | Split the current file horizontally (stacked) |
+| `Ctrl+\` | Same as `Space s v` — matches VS Code's own default key, as a bonus for terminals that pass it through (see the `Ctrl+`` `/`Ctrl+;` note above — not guaranteed everywhere, so `Space s v` is the one to rely on) |
+| `:vsplit` / `:split` | Same, as plain Vim commands |
 
 ### Editing
 

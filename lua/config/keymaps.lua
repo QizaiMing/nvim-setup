@@ -25,6 +25,14 @@ map("n", "<C-j>", "<C-w>j", { desc = "Go to lower window" })
 map("n", "<C-k>", "<C-w>k", { desc = "Go to upper window" })
 map("n", "<C-l>", "<C-w>l", { desc = "Go to right window" })
 
+-- Split the current file, like VS Code's "Split Editor". Leader-based maps
+-- are the reliable ones (see README notes on Ctrl+`/Ctrl+; -- some terminal
+-- emulators don't pass Ctrl+\ through as a distinct key either); Ctrl+\
+-- matches VS Code's own default for whichever terminal does support it.
+map("n", "<leader>sv", "<cmd>vsplit<cr>", { desc = "Split editor vertically" })
+map("n", "<leader>sh", "<cmd>split<cr>", { desc = "Split editor horizontally" })
+map("n", [[<C-\>]], "<cmd>vsplit<cr>", { desc = "Split editor vertically" })
+
 -- Clear search highlight with Esc, like clicking away in VS Code's search box.
 map("n", "<Esc>", "<cmd>nohlsearch<cr>", { desc = "Clear search highlight" })
 

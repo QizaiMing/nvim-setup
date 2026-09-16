@@ -71,7 +71,7 @@ Leader key is `<Space>`.
 | `Ctrl+S` | Save file | works in normal/insert/visual |
 | `Ctrl+P` | Find files | |
 | `Ctrl+B` | Toggle file explorer | |
-| `` Ctrl+` `` | Toggle terminal | |
+| `` Ctrl+` `` / `Ctrl+;` | Toggle terminal | both work; `Ctrl+;` matches this user's VS Code remap |
 | `Ctrl+/` | Toggle line comment | sends `Ctrl+_` on most terminals |
 | `Space f g` | Search in files (grep) | `Ctrl+Shift+F` also works in terminals that pass Shift through (Windows Terminal, Kitty, WezTerm) |
 | `Space f p` | Command palette (`:Telescope commands`) | `Ctrl+Shift+P` also works where supported |

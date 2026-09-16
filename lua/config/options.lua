@@ -44,7 +44,18 @@ opt.pumheight = 12
 opt.fillchars = { eob = " " } -- hide the ~ lines past EOF, like VS Code's empty gutter
 opt.laststatus = 3 -- one global statusline
 
-if vim.fn.has("win32") == 1 and vim.fn.executable("pwsh") == 1 then
-  opt.shell = "pwsh"
-  opt.shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command"
+if vim.fn.has("win32") == 1 then
+  if vim.o.shell:lower():find("bash%.exe") then
+    -- Neovim inherits 'shell' from $SHELL when launched from Git Bash, but
+    -- its Windows default-option heuristics leave shellcmdflag set for
+    -- cmd.exe (/s /c) instead of bash (-c), which breaks :terminal and :!.
+    opt.shellcmdflag = "-c"
+    opt.shellxquote = ""
+    opt.shellquote = ""
+    opt.shellredir = ">%s 2>&1"
+    opt.shellpipe = "2>&1 | tee %s"
+  elseif vim.fn.executable("pwsh") == 1 then
+    opt.shell = "pwsh"
+    opt.shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command"
+  end
 end

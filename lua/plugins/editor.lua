@@ -23,13 +23,20 @@ return {
     opts = {},
   },
 
-  -- Integrated terminal, toggled with Ctrl+`, like VS Code.
+  -- Integrated terminal, toggled with Ctrl+` (VS Code default) or Ctrl+;
+  -- (this user's remapped VS Code binding, from keybindings.json).
+  -- Only normal-mode entries go through lazy's `keys` loader here -- mapping
+  -- the same key in both "n" and "t" mode through lazy's replay mechanism
+  -- causes a double-fire (opens, then immediately closes again). The
+  -- terminal-mode side of these mappings is set plainly in keymaps.lua,
+  -- since by the time you're inside a terminal buffer the plugin is
+  -- already loaded.
   {
     "akinsho/toggleterm.nvim",
     version = "*",
     keys = {
       { [[<C-`>]], "<cmd>ToggleTerm direction=horizontal<cr>", desc = "Toggle terminal" },
-      { [[<C-`>]], "<cmd>ToggleTerm direction=horizontal<cr>", mode = "t", desc = "Toggle terminal" },
+      { "<C-;>", "<cmd>ToggleTerm direction=horizontal<cr>", desc = "Toggle terminal" },
     },
     opts = {
       size = 15,

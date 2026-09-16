@@ -36,6 +36,12 @@ map("v", ">", ">gv")
 -- VS Code's integrated terminal.
 map("t", "<Esc>", [[<C-\><C-n>]], { desc = "Exit terminal mode" })
 
+-- Close the terminal panel from inside it with the same key that opened it
+-- (Ctrl+` / Ctrl+;), like VS Code's toggle behavior. Plain maps, not part of
+-- lazy.nvim's `keys` loader -- see lua/plugins/editor.lua for why.
+map("t", [[<C-`>]], [[<C-\><C-n><cmd>ToggleTerm<cr>]], { desc = "Toggle terminal" })
+map("t", "<C-;>", [[<C-\><C-n><cmd>ToggleTerm<cr>]], { desc = "Toggle terminal" })
+
 -- Split navigation for resizing, like dragging VS Code's split gutters.
 map("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase window height" })
 map("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease window height" })

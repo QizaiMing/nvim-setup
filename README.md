@@ -121,7 +121,9 @@ This is plain Vim, no plugin needed:
 
 | Keys | Action |
 |---|---|
-| `` Ctrl+` `` or `Ctrl+;` | Open the integrated terminal / close it again (both keys work; `Ctrl+;` matches this user's old VS Code remap) |
+| `F12` | Open the integrated terminal / close it again — the reliable one, works in every terminal emulator |
+| `` Ctrl+` `` or `Ctrl+;` | Same, as a bonus — but "Ctrl + punctuation" combos aren't encoded as distinct keypresses by every terminal emulator (confirmed not to work in this user's Windows Terminal setup), so `F12` is the one to rely on |
+| Terminal shell | Git Bash (matches this user's VS Code default terminal profile), regardless of what shell launched Neovim itself |
 | `Esc` (while inside the terminal) | Leave terminal-insert mode without closing the panel — lets you scroll/copy or use `Ctrl+hjkl` to jump to another split |
 | `i` or `a` (after pressing Esc in the terminal) | Go back into the terminal's insert mode to keep typing shell commands |
 

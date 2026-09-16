@@ -37,8 +37,9 @@ map("v", ">", ">gv")
 map("t", "<Esc>", [[<C-\><C-n>]], { desc = "Exit terminal mode" })
 
 -- Close the terminal panel from inside it with the same key that opened it
--- (Ctrl+` / Ctrl+;), like VS Code's toggle behavior. Plain maps, not part of
--- lazy.nvim's `keys` loader -- see lua/plugins/editor.lua for why.
+-- (F12 / Ctrl+` / Ctrl+;), like VS Code's toggle behavior. Plain maps, not
+-- part of lazy.nvim's `keys` loader -- see lua/plugins/editor.lua for why.
+map("t", "<F12>", [[<C-\><C-n><cmd>ToggleTerm<cr>]], { desc = "Toggle terminal" })
 map("t", [[<C-`>]], [[<C-\><C-n><cmd>ToggleTerm<cr>]], { desc = "Toggle terminal" })
 map("t", "<C-;>", [[<C-\><C-n><cmd>ToggleTerm<cr>]], { desc = "Toggle terminal" })
 

@@ -45,10 +45,37 @@ opt.fillchars = { eob = " " } -- hide the ~ lines past EOF, like VS Code's empty
 opt.laststatus = 3 -- one global statusline
 
 if vim.fn.has("win32") == 1 then
-  if vim.o.shell:lower():find("bash%.exe") then
-    -- Neovim inherits 'shell' from $SHELL when launched from Git Bash, but
-    -- its Windows default-option heuristics leave shellcmdflag set for
-    -- cmd.exe (/s /c) instead of bash (-c), which breaks :terminal and :!.
+  -- Prefer Git Bash as the default shell (:terminal, :!, toggleterm), to
+  -- match this user's VS Code "terminal.integrated.defaultProfile.windows".
+  -- Checked explicitly rather than relying on $SHELL, since that's only set
+  -- when Neovim happens to be launched from inside a Git Bash window.
+  local bash_candidates = {
+    "C:\\Program Files\\Git\\bin\\bash.exe",
+    "C:\\Program Files (x86)\\Git\\bin\\bash.exe",
+  }
+  local bash_path = nil
+  for _, path in ipairs(bash_candidates) do
+    if vim.fn.executable(path) == 1 then
+      bash_path = path
+      break
+    end
+  end
+  if not bash_path and vim.fn.executable("bash") == 1 then
+    local resolved = vim.fn.exepath("bash")
+    -- Skip the WSL shim at System32\bash.exe -- that launches a WSL distro,
+    -- not Git Bash.
+    if not resolved:lower():find("system32") then
+      bash_path = resolved
+    end
+  end
+
+  if bash_path then
+    -- 'shell' needs literal embedded quotes when the path has spaces --
+    -- Neovim's own Windows default-detection does the same internally.
+    opt.shell = '"' .. bash_path .. '"'
+    -- Windows' default-option heuristics leave shellcmdflag set for cmd.exe
+    -- (/s /c) unless 'shell' is recognized as POSIX at startup; set the
+    -- bash-compatible flags explicitly.
     opt.shellcmdflag = "-c"
     opt.shellxquote = ""
     opt.shellquote = ""

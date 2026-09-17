@@ -5,7 +5,7 @@
 local ensure_installed = {
   "bash", "diff", "dockerfile", "go", "html", "css",
   "javascript", "typescript", "tsx", "json", "yaml",
-  "python", "rust", "regex",
+  "python", "rust", "regex", "php",
 }
 
 return {

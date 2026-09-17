@@ -179,7 +179,20 @@ install one.
 ### Code intelligence (LSP)
 
 Available once a language server has attached to the buffer (check the
-statusline, or `:LspInfo`):
+statusline, or `:LspInfo`). Currently configured (see "Adding a language
+server" below to add more):
+
+| Language(s) | Server |
+|---|---|
+| Lua | `lua_ls` |
+| Python | `pyright` |
+| JS / TypeScript / JSX / TSX | `ts_ls` |
+| PHP | `intelephense` |
+| Bash | `bashls` |
+| JSON | `jsonls` |
+| YAML | `yamlls` |
+| HTML | `html` |
+| CSS | `cssls` |
 
 | Keys | Action |
 |---|---|

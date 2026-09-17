@@ -14,6 +14,7 @@ return {
       -- (from :Mason) as you need them.
       ensure_installed = {
         "lua_ls", "pyright", "ts_ls", "bashls", "jsonls", "yamlls", "html", "cssls",
+        "intelephense",
       },
       automatic_enable = true, -- calls vim.lsp.enable() for each installed server
     },

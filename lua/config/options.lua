@@ -44,6 +44,13 @@ opt.pumheight = 12
 opt.fillchars = { eob = " " } -- hide the ~ lines past EOF, like VS Code's empty gutter
 opt.laststatus = 3 -- one global statusline
 
+-- Neovim's default guicursor renders terminal-insert mode with a blinking
+-- *block* cursor (same shape as normal/visual mode), even though it's a
+-- distinct mode where you're actively typing to the shell -- easy to
+-- mistake for still being in normal/visual mode at a glance. Give it the
+-- same thin vertical bar as regular insert mode instead.
+opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,t:ver25"
+
 if vim.fn.has("win32") == 1 then
   -- Prefer Git Bash as the default shell (:terminal, :!, toggleterm), to
   -- match this user's VS Code "terminal.integrated.defaultProfile.windows".

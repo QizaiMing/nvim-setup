@@ -58,6 +58,7 @@ have one set as your terminal's font.
 | LSP | `neovim/nvim-lspconfig` + `mason.nvim` |
 | Autocomplete | `hrsh7th/nvim-cmp` |
 | Git gutter | `lewis6991/gitsigns.nvim` |
+| Git Source Control panel | `NeogitOrg/neogit` + `sindrets/diffview.nvim` |
 | Comment toggling | `numToStr/Comment.nvim` |
 | Integrated terminal | `akinsho/toggleterm.nvim` |
 | Keybinding hints | `folke/which-key.nvim` |
@@ -141,6 +142,24 @@ everywhere, so if you're ever unsure how to get back to editing, that's it.
 
 ### Git
 
+**Source Control panel** (VS Code equivalent — see all modified, added, and
+deleted files before staging/committing):
+
+| Keys | Action |
+|---|---|
+| `Space g g` | **Open the Source Control panel** (Neogit's status view) |
+| `Space g c` | Open the commit panel directly |
+| `Space g p` / `Space g l` | Push / pull |
+
+Inside the panel: `s` stages the file or hunk under the cursor (works on a
+whole section too — put the cursor on "Unstaged changes" and press `s` to
+stage everything), `u` unstages, `x` discards changes, `<Tab>` expands a
+file to show its diff inline, `c` opens the commit prompt, `p`/`P` opens the
+push/pull menu, `?` shows the full help, `q` closes the panel. Diffs render
+through `diffview.nvim` for a clean side-by-side view.
+
+**Inline hunk markers** (as you edit, no panel needed):
+
 | Keys | Action |
 |---|---|
 | `]c` / `[c` | Jump to the next / previous changed hunk in the current file |
@@ -149,10 +168,7 @@ everywhere, so if you're ever unsure how to get back to editing, that's it.
 | `Space h r` | Reset (discard) the hunk under the cursor |
 
 Changed lines are also marked in the left gutter (`│` added/changed, `_`
-removed) as you edit, and the current branch shows in the statusline. For a
-full `git diff`/`git log`/interactive staging view, open the terminal
-(`F12`) and run `git diff`, `git log`, or a TUI like `lazygit` if you
-install one.
+removed), and the current branch shows in the statusline.
 
 ### Buffers and splits
 

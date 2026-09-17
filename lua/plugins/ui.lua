@@ -40,7 +40,25 @@ return {
       -- VS Code's actual default for cycling editor tabs.
       { "<C-Tab>", "<cmd>BufferLineCycleNext<cr>", desc = "Next buffer" },
       { "<C-S-Tab>", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev buffer" },
-      { "<leader>bd", "<cmd>bdelete<cr>", desc = "Close buffer" },
+      {
+        "<leader>bd",
+        function()
+          -- Plain :bdelete can fall back to whatever buffer this window
+          -- happened to show before (which can be nvim-tree's own buffer,
+          -- confirmed by testing), even with other real files still open.
+          -- Switch to the next real listed buffer first so the window
+          -- always lands on another open file, like VS Code closing a tab.
+          local current = vim.api.nvim_get_current_buf()
+          local listed = vim.tbl_filter(function(b)
+            return vim.api.nvim_buf_is_valid(b) and vim.bo[b].buflisted and b ~= current
+          end, vim.api.nvim_list_bufs())
+          if #listed > 0 then
+            vim.cmd("bnext")
+          end
+          vim.cmd("bdelete " .. current)
+        end,
+        desc = "Close buffer",
+      },
     },
     opts = {
       options = {

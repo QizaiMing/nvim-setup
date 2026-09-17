@@ -73,3 +73,26 @@ map("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase window height" })
 map("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease window height" })
 map("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease window width" })
 map("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase window width" })
+
+-- On request: make :q / :q! behave exactly like Space+b+d (close the file,
+-- keep the window/tree/terminal layout in place) instead of Vim's native
+-- "close this window" behavior, which on a single-file layout just leaves
+-- the tree/terminal to fill the space -- looking like "it closed to the
+-- tree". :qa and :qa! are untouched and are now the way to actually exit
+-- Neovim -- bare :q no longer does that.
+--
+-- Implementation note: a real user command is needed (not the abbreviation
+-- doing the work itself), because Vim's abbreviation matching treats `!` as
+-- a separate trigger character -- typing "q!" expands the "q" abbreviation
+-- the instant "!" is typed (as the non-keyword trigger char), and the bang
+-- gets appended *after* that expansion, so a "q!"-specific abbreviation
+-- never actually fires and the bang would be silently lost. Instead, "q"
+-- expands to the plain text "SmartQuit" (no execution yet); the "!" then
+-- naturally attaches to that as a normal command bang, which Vim's own
+-- command parser understands correctly.
+vim.api.nvim_create_user_command("SmartQuit", function(opts)
+  require("config.utils").smart_quit(opts.bang)
+end, { bang = true })
+
+vim.cmd([[cnoreabbrev <expr> q (getcmdtype() == ':' && getcmdline() ==# 'q') ? 'SmartQuit' : 'q']])
+vim.cmd([[cnoreabbrev <expr> quit (getcmdtype() == ':' && getcmdline() ==# 'quit') ? 'SmartQuit' : 'quit']])

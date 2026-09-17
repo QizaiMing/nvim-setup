@@ -1,31 +1,4 @@
--- Shared by the Space+b+d keymap AND bufferline's close_command /
--- right_mouse_command below (clicking a tab's x icon, or right-clicking it,
--- go through bufferline's own close path, not the keymap -- both needed the
--- same fix). Plain :bdelete can fall back to showing nvim-tree's own buffer
--- in whatever window displayed the closed buffer, even with other real
--- files still open (confirmed by testing). This switches every window
--- showing the closed buffer to another real, listed buffer first.
-local function close_buffer(bufnr)
-  bufnr = bufnr or vim.api.nvim_get_current_buf()
-  local listed = vim.tbl_filter(function(b)
-    return vim.api.nvim_buf_is_valid(b) and vim.bo[b].buflisted and b ~= bufnr
-  end, vim.api.nvim_list_bufs())
-
-  if #listed > 0 then
-    for _, win in ipairs(vim.api.nvim_list_wins()) do
-      -- Switching a buffer in one window can trigger autocmds (ours or a
-      -- plugin's) that close ANOTHER window before this loop reaches it
-      -- (confirmed by a real "Invalid window id" crash here) -- always
-      -- recheck validity right before touching a window from a snapshot list.
-      if vim.api.nvim_win_is_valid(win) and vim.api.nvim_win_get_buf(win) == bufnr then
-        vim.api.nvim_win_call(win, function()
-          vim.cmd("bnext")
-        end)
-      end
-    end
-  end
-  vim.cmd("bdelete " .. bufnr)
-end
+local close_buffer = require("config.utils").close_buffer
 
 return {
   {

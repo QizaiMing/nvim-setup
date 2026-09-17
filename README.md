@@ -187,7 +187,7 @@ removed), and the current branch shows in the statusline.
 |---|---|
 | `Shift+L` / `Shift+H` | Next / previous open buffer (VS Code tab equivalent) |
 | `Ctrl+Tab` / `Ctrl+Shift+Tab` | Same as above — matches VS Code's actual default for cycling editor tabs |
-| `Space b d`, or click a tab's `x` icon | Close a buffer — always lands on another open file afterward, never the file tree (a real nvim-tree default-behavior bug, fixed in `lua/plugins/ui.lua`'s `close_buffer` helper, shared by the keymap and bufferline's tab-close icon/right-click) |
+| `Space b d`, `:q`, `:quit`, or click a tab's `x` icon | Close a buffer — always lands on another open file afterward, keeping the tree/terminal layout untouched, never falling back to the file tree. `:q!`/`:quit!` force-close, discarding unsaved changes; without `!`, a modified buffer is refused with a clean message rather than closed. Shared logic lives in `lua/config/utils.lua`'s `close_buffer`/`smart_quit`. Note this means `:q` no longer exits Neovim — use `:qa`/`:qa!` for that (untouched, works exactly as before) |
 | `Ctrl+H/J/K/L` | Move focus between splits (left/down/up/right); also works from inside the terminal or file tree |
 | `Ctrl+Up/Down/Left/Right` | Resize the current split |
 | `Space s v` | **Split the current file vertically** (side by side) — VS Code's "Split Editor" |

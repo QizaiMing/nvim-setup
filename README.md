@@ -148,7 +148,8 @@ everywhere, so if you're ever unsure how to get back to editing, that's it.
 | `` Ctrl+` `` or `Ctrl+;` | Same, as a bonus — but "Ctrl + punctuation" combos aren't encoded as distinct keypresses by every terminal emulator (confirmed not to work in this user's Windows Terminal setup), so `F12` is the one to rely on |
 | Terminal shell | Git Bash (matches this user's VS Code default terminal profile), regardless of what shell launched Neovim itself |
 | `Ctrl+H/J/K/L` (while inside the terminal, even mid-command) | **Jump straight to the file tree / editor / another split in one keypress** — no need to press Esc first |
-| `Esc` or `jk` (while inside the terminal) | Leave terminal-insert mode without closing the panel or changing focus — lets you scroll/copy with normal Vim motions, then `i` or `a` to go back to typing shell commands. `jk` will also fire if you type that literal substring fast into a command (rare, but recoverable — just press `i` again) |
+| `jk` (while inside the terminal) | Leave terminal-insert mode without closing the panel or changing focus — lets you scroll/copy with normal Vim motions, then `i` or `a` to go back to typing shell commands. Will also fire if you type that literal substring fast into a command (rare, but recoverable — just press `i` again) |
+| `Esc` (while inside the terminal) | **Passes straight through** to whatever's running in the terminal — deliberately *not* intercepted, since Claude Code, vim, REPLs, etc. use Esc themselves (cancel, leave insert mode...) and swallowing it here means it never reaches them. Use `jk` above to leave terminal mode instead |
 
 ### Git
 

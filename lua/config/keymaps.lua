@@ -40,9 +40,12 @@ map("n", "<Esc>", "<cmd>nohlsearch<cr>", { desc = "Clear search highlight" })
 map("v", "<", "<gv")
 map("v", ">", ">gv")
 
--- Escape terminal insert mode with a single Esc, like clicking out of
--- VS Code's integrated terminal.
-map("t", "<Esc>", [[<C-\><C-n>]], { desc = "Exit terminal mode" })
+-- Deliberately NOT mapping plain Esc to leave terminal mode here (unlike
+-- regular insert mode). A lot of what actually runs in the terminal --
+-- Claude Code, vim/nvim, REPLs -- uses Esc itself (cancel, leave insert,
+-- etc.), and intercepting it meant that keypress never reached the program
+-- at all. jk is the way to leave terminal-insert mode instead; Esc now
+-- always passes straight through to whatever's running.
 
 -- Same jk-to-escape habit as insert mode, ported to the terminal. Note this
 -- means typing a literal "jk" into a shell command (e.g. part of a path or

@@ -29,6 +29,16 @@ git clone https://github.com/<your-user>/nvim-config.git ~/.config/nvim
 git clone https://github.com/<your-user>/nvim-config.git $env:LOCALAPPDATA\nvim
 ```
 
+On Windows, also install `ripgrep` (needed for `Space f g` / project-wide
+search — Telescope's `live_grep` shells out to it, and unlike Linux it
+isn't bundled with anything else here):
+
+```powershell
+winget install BurntSushi.ripgrep.MSVC
+```
+
+then restart your terminal so it picks up the updated `PATH`.
+
 Launch `nvim`. On first start, lazy.nvim clones itself and installs every
 plugin automatically (you'll see a progress window), then Mason installs the
 language servers listed in `lua/plugins/lsp.lua` in the background. Restart

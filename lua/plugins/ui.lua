@@ -13,7 +13,11 @@ local function close_buffer(bufnr)
 
   if #listed > 0 then
     for _, win in ipairs(vim.api.nvim_list_wins()) do
-      if vim.api.nvim_win_get_buf(win) == bufnr then
+      -- Switching a buffer in one window can trigger autocmds (ours or a
+      -- plugin's) that close ANOTHER window before this loop reaches it
+      -- (confirmed by a real "Invalid window id" crash here) -- always
+      -- recheck validity right before touching a window from a snapshot list.
+      if vim.api.nvim_win_is_valid(win) and vim.api.nvim_win_get_buf(win) == bufnr then
         vim.api.nvim_win_call(win, function()
           vim.cmd("bnext")
         end)

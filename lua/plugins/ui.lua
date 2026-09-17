@@ -1,3 +1,28 @@
+-- Shared by the Space+b+d keymap AND bufferline's close_command /
+-- right_mouse_command below (clicking a tab's x icon, or right-clicking it,
+-- go through bufferline's own close path, not the keymap -- both needed the
+-- same fix). Plain :bdelete can fall back to showing nvim-tree's own buffer
+-- in whatever window displayed the closed buffer, even with other real
+-- files still open (confirmed by testing). This switches every window
+-- showing the closed buffer to another real, listed buffer first.
+local function close_buffer(bufnr)
+  bufnr = bufnr or vim.api.nvim_get_current_buf()
+  local listed = vim.tbl_filter(function(b)
+    return vim.api.nvim_buf_is_valid(b) and vim.bo[b].buflisted and b ~= bufnr
+  end, vim.api.nvim_list_bufs())
+
+  if #listed > 0 then
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+      if vim.api.nvim_win_get_buf(win) == bufnr then
+        vim.api.nvim_win_call(win, function()
+          vim.cmd("bnext")
+        end)
+      end
+    end
+  end
+  vim.cmd("bdelete " .. bufnr)
+end
+
 return {
   {
     "nvim-tree/nvim-web-devicons",
@@ -40,28 +65,15 @@ return {
       -- VS Code's actual default for cycling editor tabs.
       { "<C-Tab>", "<cmd>BufferLineCycleNext<cr>", desc = "Next buffer" },
       { "<C-S-Tab>", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev buffer" },
-      {
-        "<leader>bd",
-        function()
-          -- Plain :bdelete can fall back to whatever buffer this window
-          -- happened to show before (which can be nvim-tree's own buffer,
-          -- confirmed by testing), even with other real files still open.
-          -- Switch to the next real listed buffer first so the window
-          -- always lands on another open file, like VS Code closing a tab.
-          local current = vim.api.nvim_get_current_buf()
-          local listed = vim.tbl_filter(function(b)
-            return vim.api.nvim_buf_is_valid(b) and vim.bo[b].buflisted and b ~= current
-          end, vim.api.nvim_list_bufs())
-          if #listed > 0 then
-            vim.cmd("bnext")
-          end
-          vim.cmd("bdelete " .. current)
-        end,
-        desc = "Close buffer",
-      },
+      { "<leader>bd", function() close_buffer() end, desc = "Close buffer" },
     },
     opts = {
       options = {
+        -- Same fix as Space+b+d, for closing a tab by clicking its x icon
+        -- or right-clicking it -- those go through bufferline's own close
+        -- path, not the keymap above, and had the identical bug.
+        close_command = function(bufnr) close_buffer(bufnr) end,
+        right_mouse_command = function(bufnr) close_buffer(bufnr) end,
         mode = "buffers",
         diagnostics = "nvim_lsp",
         separator_style = "thin",

@@ -118,6 +118,8 @@ Docked on the right (configurable in `lua/plugins/explorer.lua`'s
 | `r` | Rename |
 | `x` / `c` / `p` | Cut / copy / paste |
 | `H` | Toggle showing dotfiles |
+| `-` | Go up a directory — changes the tree's root to the parent folder |
+| `gr` | **Reset the tree root back to the project root** — undoes any number of `-` presses in one go. nvim-tree has no built-in way to do this (closing/reopening the tree does *not* revert it), added in `lua/plugins/explorer.lua` |
 | `g?` | Full nvim-tree keymap help, while focused in the tree |
 | `Ctrl+H` (while focused in the tree) | Jump back to the editor, without opening/closing anything |
 

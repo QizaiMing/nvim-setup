@@ -68,17 +68,31 @@ map("t", "<F12>", [[<C-\><C-n><cmd>ToggleTerm<cr>]], { desc = "Toggle terminal" 
 map("t", [[<C-`>]], [[<C-\><C-n><cmd>ToggleTerm<cr>]], { desc = "Toggle terminal" })
 map("t", "<C-;>", [[<C-\><C-n><cmd>ToggleTerm<cr>]], { desc = "Toggle terminal" })
 
--- Maximize whichever window is focused (a file split OR the terminal) to
--- fill the whole screen -- full height and width -- press again to restore
--- the normal layout. On request: keep the terminal's default small strip
--- along the bottom, but also have a full-size option available on demand
--- rather than replacing one with the other.
-map("n", "<F11>", function() require("config.utils").toggle_maximize() end, { desc = "Maximize/restore window" })
+-- F11 was tried here for a window-maximize toggle, but Windows Terminal
+-- (and most terminal emulators/OSes) owns F11 as its own fullscreen key
+-- and never passes it through to Neovim at all -- removed rather than
+-- ship a binding that silently can't work. See <leader>tt below instead
+-- for a full-size terminal.
+
+-- Open the terminal as a full-size tab instead of a split, on request:
+-- takes over the current window exactly like opening a file, and shows up
+-- in bufferline as a tab right alongside real files -- switch to/from it
+-- with the usual buffer navigation (Shift+L/H, Ctrl+Tab, clicking its tab,
+-- or Ctrl+H/J/K/L to another split), close it with Space+b+d/:q like any
+-- other buffer. Complements F12's small strip along the bottom rather
+-- than replacing it -- both stay available.
+map("n", "<leader>tt", function() require("config.utils").open_full_terminal() end, { desc = "Open terminal as a full-size tab" })
+
+-- Space+b+d (defined for normal mode in lua/plugins/ui.lua) needs a
+-- terminal-mode counterpart too: this terminal auto-enters insert mode on
+-- focus, and Space+b+d typed there would otherwise just be sent to the
+-- shell as literal characters instead of triggering the keymap (confirmed
+-- by testing -- it silently did nothing).
 map(
   "t",
-  "<F11>",
-  [[<C-\><C-n><cmd>lua require('config.utils').toggle_maximize()<cr><cmd>startinsert<cr>]],
-  { desc = "Maximize/restore window" }
+  "<leader>bd",
+  [[<C-\><C-n><cmd>lua require('config.utils').close_buffer()<cr>]],
+  { desc = "Close buffer" }
 )
 
 -- Split navigation for resizing, like dragging VS Code's split gutters.

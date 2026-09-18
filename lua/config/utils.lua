@@ -12,6 +12,14 @@ local M = {}
 function M.close_buffer(bufnr, force)
   bufnr = bufnr or vim.api.nvim_get_current_buf()
 
+  -- Killing a terminal's shell job isn't a "lose my edits" risk the way
+  -- discarding unsaved file changes is -- always force through both that
+  -- and Vim's separate "job still running, will be killed" refusal (E89),
+  -- confirmed by testing that a terminal buffer hits it without this.
+  if vim.bo[bufnr].buftype == "terminal" then
+    force = true
+  end
+
   -- Check this BEFORE switching any window away from bufnr below. Bailing
   -- out after an already-failed bdelete left the window(s) already moved
   -- to a different file, hiding the one with unsaved changes that still
@@ -56,29 +64,53 @@ end
 -- the way to actually exit.
 ---@param bang boolean true if invoked as :SmartQuit! (i.e. the user typed :q!)
 function M.smart_quit(bang)
-  if vim.bo.buftype == "" then
+  -- vim.b.is_main_terminal (set by open_full_terminal below) singles out
+  -- specifically the <leader>tt full-window terminal, so :q works on it
+  -- the same way it does on a file. Deliberately NOT extended to every
+  -- buftype=="terminal" buffer -- that would also catch F12's small
+  -- toggleterm strip, which is meant to hide/resume on toggle, not have
+  -- its session killed by a stray :q. Anything else (file tree, Neogit,
+  -- quickfix, ...) still falls back to plain :q/:q!, where window-close
+  -- is the right thing.
+  if vim.bo.buftype == "" or vim.b.is_main_terminal then
     M.close_buffer(nil, bang)
   else
     vim.cmd(bang and "q!" or "q")
   end
 end
 
-local maximized = false
-
--- Backs the F11 keymap in keymaps.lua. Maximizes whichever window is
--- currently focused to fill the whole screen (both height and width), or
--- restores equal split sizes if already maximized. Works on any window --
--- a file split or the terminal -- so the terminal can stay its normal
--- small strip by default while still having a full height+width option on
--- demand, without needing two different terminal instances/sizes.
-function M.toggle_maximize()
-  if maximized then
-    vim.cmd("wincmd =")
-  else
-    vim.cmd("wincmd _")
-    vim.cmd("wincmd |")
+-- Opens a full-size terminal *in place of* the current window's buffer --
+-- exactly like opening a file -- rather than as a split, so it takes the
+-- whole screen and shows up in bufferline as a tab alongside real files.
+-- Switch away from it with the usual buffer navigation (Shift+L/H,
+-- Ctrl+Tab, clicking its tab, Ctrl+H/J/K/L to another split) and close it
+-- with Space+b+d/:q, same as any other buffer -- no special-casing needed
+-- there, confirmed by testing that a running terminal job doesn't block a
+-- plain :bdelete.
+--
+-- Reuses the same terminal buffer on repeat presses instead of piling up a
+-- new one every time, by tagging it with a buffer-local marker.
+function M.open_full_terminal()
+  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    if vim.api.nvim_buf_is_valid(buf) and vim.b[buf].is_main_terminal then
+      for _, win in ipairs(vim.api.nvim_list_wins()) do
+        if vim.api.nvim_win_get_buf(win) == buf then
+          vim.api.nvim_set_current_win(win)
+          return
+        end
+      end
+      vim.api.nvim_set_current_buf(buf)
+      return
+    end
   end
-  maximized = not maximized
+
+  -- Don't clobber the file tree's own window with a terminal.
+  if vim.bo.filetype == "NvimTree" then
+    vim.cmd("wincmd p")
+  end
+
+  vim.cmd("terminal")
+  vim.b.is_main_terminal = true
 end
 
 return M

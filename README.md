@@ -144,6 +144,7 @@ everywhere, so if you're ever unsure how to get back to editing, that's it.
 | Keys | Action |
 |---|---|
 | `F12` | Open the integrated terminal / close it again — the reliable one, works in every terminal emulator |
+| Terminal size | Opens as a real vertical split, full height, ~half the screen width — the same footprint as opening another file with `Space s v`, not a thin strip at the bottom. Configurable in `lua/plugins/editor.lua`'s toggleterm `size`/`direction` |
 | Focusing the terminal (opening it, or `Ctrl+H/J/K/L`-ing into it) | Always drops you straight into insert mode, ready to type — like VS Code's terminal. The cursor also switches to a thin bar (same as regular insert mode) instead of Neovim's default blinking block for terminal mode, which otherwise looks a lot like normal/visual mode at a glance |
 | `` Ctrl+` `` or `Ctrl+;` | Same, as a bonus — but "Ctrl + punctuation" combos aren't encoded as distinct keypresses by every terminal emulator (confirmed not to work in this user's Windows Terminal setup), so `F12` is the one to rely on |
 | Terminal shell | Git Bash (matches this user's VS Code default terminal profile), regardless of what shell launched Neovim itself |

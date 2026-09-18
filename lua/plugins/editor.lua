@@ -40,15 +40,24 @@ return {
     -- keybinding below never reaches Neovim.
     cmd = { "ToggleTerm", "TermExec" },
     keys = {
-      { "<F12>", "<cmd>ToggleTerm direction=horizontal<cr>", desc = "Toggle terminal" },
-      { [[<C-`>]], "<cmd>ToggleTerm direction=horizontal<cr>", desc = "Toggle terminal" },
-      { "<C-;>", "<cmd>ToggleTerm direction=horizontal<cr>", desc = "Toggle terminal" },
+      { "<F12>", "<cmd>ToggleTerm<cr>", desc = "Toggle terminal" },
+      { [[<C-`>]], "<cmd>ToggleTerm<cr>", desc = "Toggle terminal" },
+      { "<C-;>", "<cmd>ToggleTerm<cr>", desc = "Toggle terminal" },
     },
     opts = {
-      size = 15,
+      -- Vertical split, ~half the screen width, full height -- looks and
+      -- behaves like opening another file in a Space+s+v split, not a thin
+      -- strip at the bottom. Ctrl+H/L (already mapped for window nav) move
+      -- between it and the editor since it's a real split, not a float.
+      direction = "vertical",
+      size = function(term)
+        if term.direction == "vertical" then
+          return math.floor(vim.o.columns * 0.5)
+        end
+        return 20
+      end,
       open_mapping = false, -- we set the mapping above so it's discoverable via which-key
       shading_factor = 2,
-      direction = "horizontal",
     },
   },
 }

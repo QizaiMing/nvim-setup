@@ -63,4 +63,22 @@ function M.smart_quit(bang)
   end
 end
 
+local maximized = false
+
+-- Backs the F11 keymap in keymaps.lua. Maximizes whichever window is
+-- currently focused to fill the whole screen (both height and width), or
+-- restores equal split sizes if already maximized. Works on any window --
+-- a file split or the terminal -- so the terminal can stay its normal
+-- small strip by default while still having a full height+width option on
+-- demand, without needing two different terminal instances/sizes.
+function M.toggle_maximize()
+  if maximized then
+    vim.cmd("wincmd =")
+  else
+    vim.cmd("wincmd _")
+    vim.cmd("wincmd |")
+  end
+  maximized = not maximized
+end
+
 return M

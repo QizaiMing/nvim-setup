@@ -143,8 +143,8 @@ everywhere, so if you're ever unsure how to get back to editing, that's it.
 
 | Keys | Action |
 |---|---|
-| `F12` | Open the integrated terminal / close it again — the reliable one, works in every terminal emulator |
-| Terminal size | Opens as a real vertical split, full height, ~half the screen width — the same footprint as opening another file with `Space s v`, not a thin strip at the bottom. Configurable in `lua/plugins/editor.lua`'s toggleterm `size`/`direction` |
+| `F12` | Open the integrated terminal / close it again — the reliable one, works in every terminal emulator. Opens as a small strip along the bottom, same as VS Code's default |
+| `F11` | **Maximize the currently focused window to fill the whole screen** — works on the terminal *or* a file, whichever has focus; press again to restore the normal split. Use this for a full height+width terminal without giving up the small default the rest of the time |
 | Focusing the terminal (opening it, or `Ctrl+H/J/K/L`-ing into it) | Always drops you straight into insert mode, ready to type — like VS Code's terminal. The cursor also switches to a thin bar (same as regular insert mode) instead of Neovim's default blinking block for terminal mode, which otherwise looks a lot like normal/visual mode at a glance |
 | `` Ctrl+` `` or `Ctrl+;` | Same, as a bonus — but "Ctrl + punctuation" combos aren't encoded as distinct keypresses by every terminal emulator (confirmed not to work in this user's Windows Terminal setup), so `F12` is the one to rely on |
 | Terminal shell | Git Bash (matches this user's VS Code default terminal profile), regardless of what shell launched Neovim itself |
@@ -191,6 +191,7 @@ removed), and the current branch shows in the statusline.
 | `Space b d`, `:q`, `:quit`, or click a tab's `x` icon | Close a buffer — always lands on another open file afterward, keeping the tree/terminal layout untouched, never falling back to the file tree. `:q!`/`:quit!` force-close, discarding unsaved changes; without `!`, a modified buffer is refused with a clean message rather than closed. Shared logic lives in `lua/config/utils.lua`'s `close_buffer`/`smart_quit`. Note this means `:q` no longer exits Neovim — use `:qa`/`:qa!` for that (untouched, works exactly as before) |
 | `Ctrl+H/J/K/L` | Move focus between splits (left/down/up/right); also works from inside the terminal or file tree |
 | `Ctrl+Up/Down/Left/Right` | Resize the current split |
+| `F11` | Maximize the focused split to fill the whole screen (any window, not just the terminal — see Terminal below); press again to restore |
 | `Space s v` | **Split the current file vertically** (side by side) — VS Code's "Split Editor" |
 | `Space s h` | Split the current file horizontally (stacked) |
 | `Ctrl+\` | Same as `Space s v` — matches VS Code's own default key, as a bonus for terminals that pass it through (see the `Ctrl+`` `/`Ctrl+;` note above — not guaranteed everywhere, so `Space s v` is the one to rely on) |

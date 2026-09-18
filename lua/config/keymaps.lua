@@ -68,6 +68,19 @@ map("t", "<F12>", [[<C-\><C-n><cmd>ToggleTerm<cr>]], { desc = "Toggle terminal" 
 map("t", [[<C-`>]], [[<C-\><C-n><cmd>ToggleTerm<cr>]], { desc = "Toggle terminal" })
 map("t", "<C-;>", [[<C-\><C-n><cmd>ToggleTerm<cr>]], { desc = "Toggle terminal" })
 
+-- Maximize whichever window is focused (a file split OR the terminal) to
+-- fill the whole screen -- full height and width -- press again to restore
+-- the normal layout. On request: keep the terminal's default small strip
+-- along the bottom, but also have a full-size option available on demand
+-- rather than replacing one with the other.
+map("n", "<F11>", function() require("config.utils").toggle_maximize() end, { desc = "Maximize/restore window" })
+map(
+  "t",
+  "<F11>",
+  [[<C-\><C-n><cmd>lua require('config.utils').toggle_maximize()<cr><cmd>startinsert<cr>]],
+  { desc = "Maximize/restore window" }
+)
+
 -- Split navigation for resizing, like dragging VS Code's split gutters.
 map("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase window height" })
 map("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease window height" })

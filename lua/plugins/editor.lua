@@ -45,17 +45,14 @@ return {
       { "<C-;>", "<cmd>ToggleTerm<cr>", desc = "Toggle terminal" },
     },
     opts = {
-      -- Vertical split, ~half the screen width, full height -- looks and
-      -- behaves like opening another file in a Space+s+v split, not a thin
-      -- strip at the bottom. Ctrl+H/L (already mapped for window nav) move
-      -- between it and the editor since it's a real split, not a float.
-      direction = "vertical",
-      size = function(term)
-        if term.direction == "vertical" then
-          return math.floor(vim.o.columns * 0.5)
-        end
-        return 20
-      end,
+      -- Back to the original small strip along the bottom. For a full
+      -- height+width terminal, use F11 (lua/config/keymaps.lua) to maximize
+      -- whichever window is focused -- works on this terminal OR a file,
+      -- and toggles back to the normal layout on a second press. Keeping
+      -- this default small/horizontal rather than baking "big" into the
+      -- terminal itself means both sizes stay available at once.
+      size = 15,
+      direction = "horizontal",
       open_mapping = false, -- we set the mapping above so it's discoverable via which-key
       shading_factor = 2,
     },

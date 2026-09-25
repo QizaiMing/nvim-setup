@@ -67,7 +67,15 @@ opt.laststatus = 3 -- one global statusline
 -- the same mode overrides an earlier one, so this only touches "t" and
 -- leaves everything else exactly as that Neovim's own default set it,
 -- regardless of version.
-opt.guicursor:append("t:ver25")
+--
+-- Wrapped in pcall: even just appending "t:ver25" alone (no longer a
+-- hardcoded default copy) *still* hit "E546: Illegal mode" on another
+-- machine's Neovim build -- likely an older/minimal build where 't' isn't
+-- a recognized guicursor mode at all. This is a cosmetic nicety, not core
+-- functionality; it should never be able to break Neovim from starting.
+-- Worst case without it: terminal mode keeps Neovim's own default cursor
+-- shape for that build instead of a thin bar.
+pcall(function() opt.guicursor:append("t:ver25") end)
 
 if vim.fn.has("win32") == 1 then
   -- Prefer Git Bash as the default shell (:terminal, :!, toggleterm), to

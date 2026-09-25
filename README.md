@@ -13,13 +13,20 @@ and git.
 Requirements: Neovim >= 0.10 (built for 0.11), `git`, and for the full
 experience `curl` or `wget`, a C compiler (`gcc`/`clang` — needed to build
 Treesitter parsers), `unzip` (needed by Mason to install language
-servers), and **Node.js + npm** — all but one of the configured language
-servers (`lua_ls` is the exception) are npm packages under the hood, so
-without Node.js Mason silently fails to install almost every one of them.
-On Debian/Ubuntu:
+servers), and **Node.js >= 18 + npm** — all but one of the configured
+language servers (`lua_ls` is the exception) are npm packages under the
+hood, so without Node.js Mason silently fails to install almost every one
+of them. On Debian/Ubuntu:
 
 ```sh
-sudo apt update && sudo apt install -y neovim git curl gcc unzip ripgrep nodejs npm
+sudo apt update && sudo apt install -y neovim git curl gcc unzip ripgrep
+
+# Debian/Ubuntu's own repo nodejs package can be years out of date
+# (e.g. Ubuntu 22.04 ships Node 12, long past end-of-life and too old
+# for several of these servers) -- NodeSource's setup script gets a
+# current LTS reliably regardless of which release you're on.
+curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+sudo apt install -y nodejs
 ```
 
 Then clone this repo directly into Neovim's config directory:

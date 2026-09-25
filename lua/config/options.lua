@@ -49,7 +49,15 @@ opt.laststatus = 3 -- one global statusline
 -- distinct mode where you're actively typing to the shell -- easy to
 -- mistake for still being in normal/visual mode at a glance. Give it the
 -- same thin vertical bar as regular insert mode instead.
-opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,t:ver25"
+--
+-- Appended (not a full replacement string) on purpose: a hardcoded copy of
+-- Neovim's own default previously broke with "E546: Illegal mode" on a
+-- different machine's Neovim version/build -- the default's exact mode
+-- groupings aren't guaranteed stable across versions. A later entry for
+-- the same mode overrides an earlier one, so this only touches "t" and
+-- leaves everything else exactly as that Neovim's own default set it,
+-- regardless of version.
+opt.guicursor:append("t:ver25")
 
 if vim.fn.has("win32") == 1 then
   -- Prefer Git Bash as the default shell (:terminal, :!, toggleterm), to

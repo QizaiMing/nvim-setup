@@ -33,7 +33,17 @@ opt.wrap = false
 opt.swapfile = false
 opt.backup = false
 opt.undofile = true
-opt.undodir = vim.fn.stdpath("state") .. "/undo"
+local undodir = vim.fn.stdpath("state") .. "/undo"
+-- Vim reads 'undodir' but never creates it -- on a fresh clone (no prior
+-- Neovim state on this machine) it doesn't exist yet, so undofile writes
+-- silently do nothing at all until something else happens to create it
+-- (confirmed by testing: undofile stayed unwritten after :write, no error
+-- shown). Persistent undo across sessions is the whole point of the
+-- option, so make sure the directory is actually there.
+if vim.fn.isdirectory(undodir) == 0 then
+  vim.fn.mkdir(undodir, "p")
+end
+opt.undodir = undodir
 
 opt.updatetime = 250
 opt.timeoutlen = 400
